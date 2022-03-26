@@ -25,7 +25,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // trate the jump
+        grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
+
+        // trate jump button
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            jumping = true;
+        }
     }
 
     /// <summary>
@@ -46,6 +54,13 @@ public class Player : MonoBehaviour
         if ((move < 0f && facingRight) || (move > 0f && !facingRight))
         {
             Flip();
+        }
+
+        // add force to jump
+        if (jumping)
+        {
+            rb2d.AddForce(new Vector2(0f, jumpForce));
+            jumping = false;
         }
 
     }
