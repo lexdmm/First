@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public Transform groundCheck;
     private bool invunerable = false;
     private bool grounded = false;
-    private bool jumping = false;
+    private bool jumping = true;
     private bool facingRight = true;
     private SpriteRenderer sprite;
     private Rigidbody2D rb2d;
@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
         {
             jumping = true;
         }
+
+        SetAnimations();
     }
 
     /// <summary>
@@ -69,5 +71,13 @@ public class Player : MonoBehaviour
     {
         facingRight = !facingRight;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+
+    void SetAnimations()
+    {
+        animator.SetFloat("VelY", rb2d.velocity.y); // jump verify
+        animator.SetBool("JumpFall", !grounded); // touch floor
+        animator.SetBool("Walk", rb2d.velocity.x != 0f && grounded); // move verify
+
     }
 }
